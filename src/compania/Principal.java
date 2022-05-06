@@ -50,6 +50,9 @@ public class Principal {
 				//Dentro de ese if que tome como ORIGEN MADRID y el resto tome el destino de su vuelo anterior 
 				//a partir del ARRAY historial vuelos
 				//Ejemplo: Vuelo 5 toma el destino del vuelo 1 como origen, vuelo 6 el destino de vuelo 2 etc
+			
+				//PARA LA FECHA 
+				vuelo1.setFechaProcedencia(fechaPrograma);
 				break;
 			}
 		
