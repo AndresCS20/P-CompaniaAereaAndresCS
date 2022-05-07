@@ -8,6 +8,7 @@ public class Vuelo {
 	
 	private String procedencia="";
 	private String destino="";
+	private String codigo="";
 	private LocalDateTime fechaProcedencia=LocalDateTime.now();
 	private LocalDateTime fechaDestino;
 	
@@ -18,15 +19,32 @@ public class Vuelo {
 
 	//------Constructores-------//
 	
-	public Vuelo(String procedencia, String destino, LocalDateTime fechaDestino) {
+	public Vuelo(String procedencia, String destino, String codigo,LocalDateTime fechaDestino) {
 		super();
 		this.procedencia = procedencia;
 		this.destino = destino;
+		this.codigo=codigo;
 		this.fechaDestino = fechaDestino;
 	}
-
-	//----Setters && Getters----//
 	
+	public Vuelo(String procedencia, String destino, String codigo, LocalDateTime fechaProcedencia,
+			LocalDateTime fechaDestino) {
+		super();
+		this.procedencia = procedencia;
+		this.destino = destino;
+		this.codigo = codigo;
+		this.fechaProcedencia = fechaProcedencia;
+		this.fechaDestino = fechaDestino;
+	}
+	//----Setters && Getters----//
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 	public String getProcedencia() {
 		return procedencia;
 	}

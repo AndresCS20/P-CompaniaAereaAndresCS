@@ -22,10 +22,12 @@ public class Principal {
 		int numAleatorioDestino=0;
 		String codigoVuelo="";
 		int numVuelo=0;
+		int horas=0;
+		int minutos=0;
 		
 		//----------------(Solo Pruebas) Eliminar--------------------//
 			LocalDateTime fechaNueva=fechaPrograma.plusHours(5);
-			Vuelo vuelo1=new Vuelo("Madrid", "Sevilla", fechaNueva);
+			Vuelo vuelo1=new Vuelo("Madrid", "Sevilla", "0MASE0",fechaNueva);
 			historialVuelos.add(vuelo1);
 		//-----------------------------------------------------------//
 			
@@ -77,9 +79,34 @@ public class Principal {
 							codigoVuelo=avion+salida.substring(0,2)+destinos[numAleatorioDestino].substring(0,2)+numVuelo;
 							codigoVuelo=codigoVuelo.toUpperCase();
 							System.out.println(codigoVuelo);
+								horas=r.nextInt(17)+7;
+
+								boolean numMultiCinco=false;
+								
+									
+									minutos=r.nextInt(56);
+									
+
+	
+								
+								while (!numMultiCinco) {
+									
+									
+									
+									minutos=r.nextInt(56);
+									
+									if (minutos%5==0) {
+										
+										System.out.println(minutos);
+										numMultiCinco=true;
+									}
+									
+
+								}
+								
 							avion++;
 							
-							Vuelo vuelo=new Vuelo(salida,destinos[numAleatorioDestino], fechaNueva);
+							Vuelo vuelo=new Vuelo(salida,destinos[numAleatorioDestino],codigoVuelo, fechaNueva);
 							historialVuelos.add(vuelo);
 						}
 					}
@@ -91,7 +118,7 @@ public class Principal {
 					}
 					
 					
-					primerDia=true;
+//					primerDia=true;
 				}
 				
 				else {
