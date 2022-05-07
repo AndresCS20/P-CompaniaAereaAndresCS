@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.time.*;
 import java.time.format.*;
+import java.util.Random;
 public class Principal {
 
 	public static Scanner scString=new Scanner(System.in);
@@ -14,6 +15,13 @@ public class Principal {
 		DateTimeFormatter formatoFechaSolo=DateTimeFormatter.ofPattern("dd-MM-YYYY");
 		DateTimeFormatter formatoFechaHora=DateTimeFormatter.ofPattern("dd-MM-YYYY HH:mm");
 		int opcion=0;
+		boolean primerDia=false;
+		String salida="";
+		String destino="";
+		Random r=new Random();
+		int numAleatorioDestino=0;
+		String codigoVuelo="";
+		int numVuelo=0;
 		
 		//----------------(Solo Pruebas) Eliminar--------------------//
 			LocalDateTime fechaNueva=fechaPrograma.plusHours(5);
@@ -44,14 +52,52 @@ public class Principal {
 			case 2:
 				System.out.println("[2]Pasar dia siguiente y ver vuelos");
 				fechaPrograma=fechaPrograma.plusDays(1);
+				int avion=1;
 				//Hacer una variable booleana, hacer un if para que mientras
 				//esa variable sea falsa se ejecute el if sino else, 
 				//y cuando pase el día cambiarla a true
 				//Dentro de ese if que tome como ORIGEN MADRID y el resto tome el destino de su vuelo anterior 
 				//a partir del ARRAY historial vuelos
 				//Ejemplo: Vuelo 5 toma el destino del vuelo 1 como origen, vuelo 6 el destino de vuelo 2 etc
-			
-				//PARA LA FECHA 
+
+				if (!primerDia) {
+					
+					salida="Madrid";
+					
+					String [] destinos= {"Madrid","Barcelona", "Valencia", "Alicante", "Bilbao", "Tenerife"};
+					for (int i =1; i < 5; i++) {
+					boolean destinoIgualSalida=true;
+					while (destinoIgualSalida) {
+					numAleatorioDestino=r.nextInt(6);		
+						if (!destinos[numAleatorioDestino].equals(salida) && !(destinos[numAleatorioDestino].isEmpty())) {
+							
+							numVuelo++;
+							System.out.println("numvuelo"+numVuelo);
+							destinoIgualSalida=false;
+							codigoVuelo=avion+salida.substring(0,2)+destinos[numAleatorioDestino].substring(0,2)+numVuelo;
+							codigoVuelo=codigoVuelo.toUpperCase();
+							System.out.println(codigoVuelo);
+							avion++;
+							
+							Vuelo vuelo=new Vuelo(salida,destinos[numAleatorioDestino], fechaNueva);
+							historialVuelos.add(vuelo);
+						}
+					}
+					
+					System.out.println("Vuelo #"+i+ " Salida: "+salida+" Destino: "+destinos[numAleatorioDestino]);
+					destinos[numAleatorioDestino]="";
+
+					
+					}
+					
+					
+					primerDia=true;
+				}
+				
+				else {
+					
+					
+				}
 				vuelo1.setFechaProcedencia(fechaPrograma);
 				break;
 			}
