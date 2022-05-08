@@ -9,8 +9,10 @@ public class Vuelo {
 	private String procedencia="";
 	private String destino="";
 	private String codigo="";
-	private LocalDateTime fechaProcedencia=LocalDateTime.now();
-	private LocalDateTime fechaDestino;
+	private LocalTime horaSalida=LocalTime.now();
+	private LocalTime horaDestino=LocalTime.now();
+	private LocalDate fechaSalida=LocalDate.now();
+	private LocalDate fechaDestino;
 	
 	
 	
@@ -19,7 +21,7 @@ public class Vuelo {
 
 	//------Constructores-------//
 	
-	public Vuelo(String procedencia, String destino, String codigo,LocalDateTime fechaDestino) {
+	public Vuelo(String procedencia, String destino, String codigo,LocalDate fechaDestino) {
 		super();
 		this.procedencia = procedencia;
 		this.destino = destino;
@@ -27,13 +29,15 @@ public class Vuelo {
 		this.fechaDestino = fechaDestino;
 	}
 	
-	public Vuelo(String procedencia, String destino, String codigo, LocalDateTime fechaProcedencia,
-			LocalDateTime fechaDestino) {
+	public Vuelo(String procedencia, String destino, String codigo, LocalTime horaSalida, LocalTime horaDestino,LocalDate fechaSalida,
+			LocalDate fechaDestino) {
 		super();
 		this.procedencia = procedencia;
 		this.destino = destino;
 		this.codigo = codigo;
-		this.fechaProcedencia = fechaProcedencia;
+		this.horaSalida = horaSalida;
+		this.horaDestino = horaDestino;
+		this.fechaSalida = fechaSalida;
 		this.fechaDestino = fechaDestino;
 	}
 	//----Setters && Getters----//
@@ -57,17 +61,38 @@ public class Vuelo {
 	public void setDestino(String destino) {
 		this.destino = destino;
 	}
-	public LocalDateTime getFechaProcedencia() {
-		return fechaProcedencia;
+
+	public LocalTime getHoraSalida() {
+		return horaSalida;
 	}
-	public void setFechaProcedencia(LocalDateTime fechaProcedencia) {
-		this.fechaProcedencia = fechaProcedencia;
+
+	public void setHoraSalida(LocalTime horaSalida) {
+		this.horaSalida = horaSalida;
 	}
-	public LocalDateTime getFechaDestino() {
+
+	public LocalTime getHoraDestino() {
+		return horaDestino;
+	}
+
+	public void setHoraDestino(LocalTime horaDestino) {
+		this.horaDestino = horaDestino;
+	}
+
+	public LocalDate getFechaSalida() {
+		return fechaSalida;
+	}
+
+	public void setFechaSalida(LocalDate fechaSalida) {
+		this.fechaSalida = fechaSalida;
+	}
+
+	public LocalDate getFechaDestino() {
 		return fechaDestino;
 	}
-	public void setFechaDestino(LocalDateTime fechaDestino) {
+
+	public void setFechaDestino(LocalDate fechaDestino) {
 		this.fechaDestino = fechaDestino;
 	}
+
 
 }
