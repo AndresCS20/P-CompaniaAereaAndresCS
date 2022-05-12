@@ -185,7 +185,7 @@ public class Principal {
 						System.out.println("Hora de Salida "+ horaSalidaVuelo.format(formatoHora));	
 						
 						if (listaHistorial.containsKey(codigoSalidaDestino)) {
-							
+							System.out.println("Duracion del vuelo en minutos avion "+avion+": "+salida+ " - "+destinos[numAleatorioDestino]);
 							duracion=listaHistorial.get(codigoSalidaDestino);
 							horaDestinoVuelo=horaSalidaVuelo.plusMinutes(duracion);
 							
