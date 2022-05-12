@@ -21,6 +21,15 @@ public class Vuelo {
 
 	//------Constructores-------//
 	
+	public Vuelo(String procedencia, String destino, String codigo, LocalTime horaSalida, LocalDate fechaSalida) {
+		super();
+		this.procedencia = procedencia;
+		this.destino = destino;
+		this.codigo = codigo;
+		this.horaSalida = horaSalida;
+		this.fechaSalida = fechaSalida;
+	}
+	
 	public Vuelo(String procedencia, String destino, String codigo,LocalDate fechaDestino) {
 		super();
 		this.procedencia = procedencia;
@@ -28,7 +37,7 @@ public class Vuelo {
 		this.codigo=codigo;
 		this.fechaDestino = fechaDestino;
 	}
-	
+
 	public Vuelo(String procedencia, String destino, String codigo, LocalTime horaSalida, LocalTime horaDestino,LocalDate fechaSalida,
 			LocalDate fechaDestino) {
 		super();
