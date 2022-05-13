@@ -9,6 +9,7 @@ public class Vuelo {
 	private String procedencia="";
 	private String destino="";
 	private String codigo="";
+	private String codigoSalidaDestino="";
 	private LocalTime horaSalida=LocalTime.now();
 	private LocalTime horaDestino=LocalTime.now();
 	private LocalDate fechaSalida=LocalDate.now();
@@ -21,15 +22,18 @@ public class Vuelo {
 
 	//------Constructores-------//
 	
-	public Vuelo(String procedencia, String destino, String codigo, LocalTime horaSalida, LocalDate fechaSalida) {
+	public Vuelo(String procedencia, String destino, String codigo, String codigoSalidaDestino, LocalTime horaSalida,
+			LocalDate fechaSalida) {
 		super();
 		this.procedencia = procedencia;
 		this.destino = destino;
 		this.codigo = codigo;
+		this.codigoSalidaDestino = codigoSalidaDestino;
 		this.horaSalida = horaSalida;
 		this.fechaSalida = fechaSalida;
 	}
-	
+
+
 	public Vuelo(String procedencia, String destino, String codigo,LocalDate fechaDestino) {
 		super();
 		this.procedencia = procedencia;
@@ -103,5 +107,14 @@ public class Vuelo {
 		this.fechaDestino = fechaDestino;
 	}
 
+	public String getCodigoSalidaDestino() {
+		return codigoSalidaDestino;
+	}
+
+	public void setCodigoSalidaDestino(String codigoSalidaDestino) {
+		this.codigoSalidaDestino = codigoSalidaDestino;
+	}
+
+	
 
 }
