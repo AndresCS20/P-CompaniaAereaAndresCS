@@ -1,6 +1,7 @@
 package compania;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.time.*;
 import java.time.format.*;
@@ -11,6 +12,7 @@ public class Principal {
 	public static Scanner scString=new Scanner(System.in);
 	public static LocalDate fechaPrograma=LocalDate.now();
 	public static ArrayList <Vuelo> historialVuelos=new ArrayList();
+	public static ArrayList <Vuelo> vuelosDelDia=new ArrayList();
 	public static DateTimeFormatter formatoFechaSolo=DateTimeFormatter.ofPattern("dd-MM-YYYY");
 	public static DateTimeFormatter formatoHora=DateTimeFormatter.ofPattern("HH:mm");
 	public static int opcion=0;
@@ -85,8 +87,6 @@ public class Principal {
 			while (destinoIgualSalida) {
 			numAleatorioDestino=r.nextInt(6);		
 				if (!destinos[numAleatorioDestino].equals(salida) && !(destinos[numAleatorioDestino].isEmpty())) {
-					int duracion=0;
-					LocalDate fechaDestino=fechaPrograma;
 					numVuelo++;
 					destinoIgualSalida=false;
 					codigoSalidaDestino=salida.substring(0,2)+destinos[numAleatorioDestino].substring(0,2);
@@ -108,46 +108,59 @@ public class Principal {
 						}
 						
 						horaSalidaVuelo=LocalTime.of(horas, minutos);
-						
-						System.out.println("Hora de Salida "+ horaSalidaVuelo.format(formatoHora));								
+					
+						Vuelo vuelo=new Vuelo(salida,destinos[numAleatorioDestino],codigoVuelo,codigoSalidaDestino,horaSalidaVuelo,fechaPrograma);
+						vuelosDelDia.add(vuelo);
+						System.out.println(codigoVuelo+": "+salida+" - "+destinos[numAleatorioDestino]+" \t"+horaSalidaVuelo);
+
+
+					}
+				}
+			destinos[numAleatorioDestino]="";
+			
+			}	
+			
+				for (int i=0; i<vuelosDelDia.size(); i++) {
+								int duracion=0;
+								LocalDate fechaDestino=fechaPrograma;
+						System.out.println("Hora de Salida "+ vuelosDelDia.get(i).getHoraSalida().format(formatoHora));								
 						do {
 							
-							System.out.println("Duracion del vuelo en minutos avion "+avion+": "+salida+ " - "+destinos[numAleatorioDestino]+"?");
+							System.out.println("Duracion del vuelo en minutos avion "+avion+": "+salida+ " - "+vuelosDelDia.get(i).getDestino()+"?");
 							System.out.println("(Duracion Maxima 5 Horas (300 minutos)");
 							duracion=introducirNumeroEntero(opcion);
 						} while (duracion<=0 || duracion>300);
 						
-						System.out.println("Hora de Salida "+ horaSalidaVuelo.format(formatoHora));								
-						horaDestinoVuelo=horaSalidaVuelo.plusMinutes(duracion);
+						System.out.println("Hora de Salida "+ vuelosDelDia.get(i).getHoraSalida().format(formatoHora));								
+						horaDestinoVuelo=vuelosDelDia.get(i).getHoraSalida().plusMinutes(duracion);
 						System.out.print("Hora de llegada "+ horaDestinoVuelo.format(formatoHora));
+						vuelosDelDia.get(i).setFechaDestino(fechaPrograma);
+						
 						if (horaDestinoVuelo.getHour()>=00 && horaDestinoVuelo.getHour()<=06) {
 							
 							System.out.println(" del dia siguiente.");
 							fechaDestino=fechaDestino.plusDays(1);
-							
+							vuelosDelDia.get(i).setFechaDestino(fechaDestino);
 						}
 						else System.out.println("\n");
 						duracionVuelo=Integer.valueOf(duracion);
-					listaHistorial.put(codigoSalidaDestino, duracionVuelo);
+					listaHistorial.put(vuelosDelDia.get(i).getCodigoSalidaDestino(), duracionVuelo);
 					
 					avion++;
-					Vuelo vuelo=new Vuelo(salida, destinos[numAleatorioDestino], codigoVuelo, horaSalidaVuelo, horaDestinoVuelo, fechaPrograma, fechaDestino);
-					historialVuelos.add(vuelo);
-				}
-			}
-			
+					vuelosDelDia.get(i).setFechaDestino(fechaDestino);
+					vuelosDelDia.get(i).setHoraDestino(horaDestinoVuelo);
+					historialVuelos.add(vuelosDelDia.get(i));
+	
 		
 			
 			System.out.println("-----------------------------------\n");
-			destinos[numAleatorioDestino]="";
+			
 
-			
-			}
-			
-			
 		primerDia=true;
-		}
 		
+				}
+				vuelosDelDia.clear();
+		}
 		//Generar vuelos a partir del dia primero
 		
 		else {
@@ -158,8 +171,6 @@ public class Principal {
 			while (destinoIgualSalida) {
 			numAleatorioDestino=r.nextInt(6);		
 				if (!destinos[numAleatorioDestino].equals(salida) && !(destinos[numAleatorioDestino].isEmpty())) {
-					int duracion=0;
-					LocalDate fechaDestino=fechaPrograma;
 					numVuelo++;
 					destinoIgualSalida=false;
 					codigoSalidaDestino=salida.substring(0,2)+destinos[numAleatorioDestino].substring(0,2);
@@ -181,12 +192,23 @@ public class Principal {
 						}
 						
 						horaSalidaVuelo=LocalTime.of(horas, minutos);
-						
-						System.out.println("Hora de Salida "+ horaSalidaVuelo.format(formatoHora));	
-						
-						if (listaHistorial.containsKey(codigoSalidaDestino)) {
-							System.out.println("Duracion del vuelo en minutos avion "+avion+": "+salida+ " - "+destinos[numAleatorioDestino]);
-							duracion=listaHistorial.get(codigoSalidaDestino);
+					
+						Vuelo vuelo=new Vuelo(salida,destinos[numAleatorioDestino],codigoVuelo,codigoSalidaDestino,horaSalidaVuelo,fechaPrograma);
+						vuelosDelDia.add(vuelo);
+						System.out.println(codigoVuelo+": "+salida+" - "+destinos[numAleatorioDestino]+" \t"+horaSalidaVuelo);
+
+
+					}
+				}
+			destinos[numAleatorioDestino]="";
+			otroVuelo++;
+			}			
+						for (int i=0; i<vuelosDelDia.size(); i++) {
+						int duracion=0;
+						LocalDate fechaDestino=fechaPrograma;
+						if (listaHistorial.containsKey(vuelosDelDia.get(i).getCodigoSalidaDestino())) {
+							System.out.println("Duracion del vuelo en minutos avion "+avion+": "+vuelosDelDia.get(i).getProcedencia()+ " - "+vuelosDelDia.get(i).getDestino());
+							duracion=listaHistorial.get(vuelosDelDia.get(i).getCodigoSalidaDestino());//Posible fallo dentro de codigo salida
 							horaDestinoVuelo=horaSalidaVuelo.plusMinutes(duracion);
 							
 						}
@@ -195,37 +217,38 @@ public class Principal {
 							
 							do {
 								
-								System.out.println("Duracion del vuelo en minutos avion "+avion+": "+salida+ " - "+destinos[numAleatorioDestino]+"?");
+								System.out.println("Duracion del vuelo en minutos avion "+avion+": "+vuelosDelDia.get(i).getProcedencia()+ " - "+vuelosDelDia.get(i).getDestino()+"?");
 								System.out.println("(Duracion Maxima 5 Horas (300 minutos)");
 								duracion=introducirNumeroEntero(opcion);
 							} while (duracion<=0 || duracion>300);
 							duracionVuelo=duracion;
-							listaHistorial.put(codigoSalidaDestino, duracionVuelo);
+							listaHistorial.put(vuelosDelDia.get(i).getCodigoSalidaDestino(), duracionVuelo);
 						}
-						System.out.println("Hora de Salida "+ horaSalidaVuelo.format(formatoHora));	
-						horaDestinoVuelo=horaSalidaVuelo.plusMinutes(duracion);
+						System.out.println("Hora de Salida "+ vuelosDelDia.get(i).getHoraSalida().format(formatoHora));	
+						horaDestinoVuelo=vuelosDelDia.get(i).getHoraSalida().plusMinutes(duracion);
 						System.out.print("Hora de llegada "+ horaDestinoVuelo.format(formatoHora));
+						vuelosDelDia.get(i).setFechaDestino(fechaPrograma);
 						if (horaDestinoVuelo.getHour()>=00 && horaDestinoVuelo.getHour()<=06) {
 							
 							System.out.println(" del dia siguiente.");
 							fechaDestino=fechaDestino.plusDays(1);
-							
+							vuelosDelDia.get(i).setFechaDestino(fechaDestino);
+
 						}
 						else System.out.println("\n");
 					avion++;
-					Vuelo vuelo=new Vuelo(salida, destinos[numAleatorioDestino], codigoVuelo, horaSalidaVuelo, horaDestinoVuelo, fechaPrograma, fechaDestino);
-					historialVuelos.add(vuelo);
-				}
-			}
+					vuelosDelDia.get(i).setFechaDestino(fechaDestino);
+					vuelosDelDia.get(i).setHoraDestino(horaDestinoVuelo);
+					historialVuelos.add(vuelosDelDia.get(i));
+
 			
 		
 			System.out.println("-----------------------------------\n");
-			destinos[numAleatorioDestino]="";
-			otroVuelo++;
 
-			}
+
+						}
 			
-		}
+		} vuelosDelDia.clear();
 	}
 
 	//[1] Listar Historial de Vuelos
@@ -234,7 +257,7 @@ public class Principal {
 		System.out.println("[1] Listado de Vuelos Totales");
 		if (historialVuelos.size()>0) {
 			for (int i=0; i<historialVuelos.size(); i++) {
-				System.out.println("- Vuelo #"+i+" | Codigo Vuelo: "+historialVuelos.get(i).getCodigo()+" | Salida: "+historialVuelos.get(i).getProcedencia()+" ("+historialVuelos.get(i).getFechaSalida().format(formatoFechaHora)+" "+historialVuelos.get(i).getHoraSalida()+
+				System.out.println("- Vuelo #"+(i+1)+" | Codigo Vuelo: "+historialVuelos.get(i).getCodigo()+" | Salida: "+historialVuelos.get(i).getProcedencia()+" ("+historialVuelos.get(i).getFechaSalida().format(formatoFechaHora)+" "+historialVuelos.get(i).getHoraSalida()+
 						") | Destino: "+historialVuelos.get(i).getDestino()+" ("+historialVuelos.get(i).getFechaDestino().format(formatoFechaHora)+" "+historialVuelos.get(i).getHoraDestino()+")");	
 			}			
 		}
